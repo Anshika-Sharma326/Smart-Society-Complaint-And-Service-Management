@@ -1,0 +1,129 @@
+.sidebar{
+    position:fixed;
+    top:72px;
+    left:-280px;
+    width:280px;
+    height:calc(100vh - 72px);
+    background:#1e293b;
+    transition:0.3s ease;
+    z-index:1000;
+    overflow:hidden; 
+}
+
+.sidebar.active{
+    left:0;
+}
+
+
+/* Menu Button */
+
+.menu-btn {
+    position: fixed;
+    top:15px;
+    left:20px;
+    width:55px;
+    height:55px;
+    background:#1e293b;
+    color:white;
+    border:none;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    z-index:2000;
+}
+
+
+/* Sidebar Title */
+
+.sidebar-title{
+    color:white;
+    font-size:24px;
+    font-weight:800;
+    text-align:center;
+    margin:22px 0 20px;   /* GAP REDUCED */
+    letter-spacing:0.5px;
+}
+
+
+/* Menu List */
+
+.sidebar-menu {
+    list-style:none;
+    padding:0 20px;
+    margin:0;
+    height:calc(100% - 100px);
+    padding-bottom:90px;
+}
+
+
+.sidebar-menu li {
+    margin:12px 0;   /* pehle 22px tha */
+}
+
+
+.sidebar-menu a {
+    color:#cbd5e1;
+    text-decoration:none;
+    font-size:17px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:0.3s;
+    padding:12px 15px;
+    border-radius:8px;
+}
+
+
+.sidebar-menu a:hover {
+    background:#334155;
+    color:#38bdf8;
+}
+
+
+/* Logout Button */
+
+.logout-btn {
+    position:absolute;
+    bottom:20px;
+    left:15px;
+    width:calc(100% - 30px);
+    padding:12px;
+    background:#ef4444;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+
+.logout-btn:hover {
+    background:#dc2626;
+}
+
+
+.active-link{
+    background:#334155;
+    color:white !important;
+    border-radius:8px;
+}
+
+.close-btn{
+    position:absolute;
+    top:15px;
+    right:15px;
+    color:white;
+    font-size:28px !important;
+    cursor:pointer;
+    z-index:2001;
+}
+.sidebar-title{
+    color:white;
+    font-size:24px;
+    font-weight:800;
+    text-align:center;
+    margin:60px 0 20px;
+    letter-spacing:0.5px;
+}
