@@ -12,7 +12,6 @@ import com.smartsociety.smart_society_portal.entity.User;
 import com.smartsociety.smart_society_portal.exception.ResourceNotFoundException;
 import com.smartsociety.smart_society_portal.repository.UserRepository;
 import com.smartsociety.smart_society_portal.service.UserService;
-import org.springframework.http.ResponseEntity;
 import com.smartsociety.smart_society_portal.dto.ChangePasswordRequest;
 @Service
 public class UserServiceImpl implements UserService {

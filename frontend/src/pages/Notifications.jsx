@@ -15,7 +15,7 @@ function Notifications() {
       const response = await api.get("/notifications");
       setNotifications(response.data);
     } catch (error) {
-      console.error(error);
+      console.error("Error loading notifications:", error);
     }
   };
 
@@ -24,22 +24,18 @@ function Notifications() {
       await api.delete(`/notifications/${id}`);
       loadNotifications();
     } catch (error) {
-      console.error(error);
+      console.error("Error deleting notification:", error);
     }
   };
 
   return (
     <Layout>
-      <div className="notification-container">
-
+      <div className="notifications-container">
         <h1>Notifications</h1>
 
         {notifications.length > 0 ? (
           notifications.map((item) => (
-            <div
-              className="notification-card"
-              key={item.id}
-            >
+            <div className="notification-card" key={item.id}>
               <div>
                 <h3>{item.title}</h3>
 
@@ -48,11 +44,7 @@ function Notifications() {
                 <small>{item.type}</small>
               </div>
 
-              <button
-                onClick={() =>
-                  deleteNotification(item.id)
-                }
-              >
+              <button onClick={() => deleteNotification(item.id)}>
                 Mark Read
               </button>
             </div>
