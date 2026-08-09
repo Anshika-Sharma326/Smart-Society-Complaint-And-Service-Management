@@ -29,6 +29,7 @@ A full-stack web application for managing complaints and services in a residenti
 - Profile Management
 - Change Password
 - Responsive UI
+- Notifications
 
 ## 📂 Project Structure
 
