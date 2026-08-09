@@ -63,4 +63,26 @@ public class StaffServiceImpl implements StaffService {
     public List<Staff> searchStaff(String keyword) {
         return staffRepository.findByNameContainingIgnoreCase(keyword);
     }
+
+    // =========================
+    // ADMIN APPROVAL
+    // =========================
+
+    @Override
+    public Staff approveStaff(Long id) {
+
+        Staff staff = staffRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Staff not found"));
+
+        staff.setStatus("AVAILABLE");
+
+        return staffRepository.save(staff);
+    }
+
+    @Override
+    public List<Staff> getPendingStaff() {
+
+        return staffRepository.findByStatus("PENDING");
+    }
 }

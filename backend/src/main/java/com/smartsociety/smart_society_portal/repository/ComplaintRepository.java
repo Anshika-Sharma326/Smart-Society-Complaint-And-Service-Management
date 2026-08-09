@@ -13,10 +13,5 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
     List<Complaint> findByStatus(String status);
     long countByStatus(String status);
     List<Complaint> findByTitleContainingIgnoreCase(String keyword);
-
-    // Resident/Owner: only complaints raised by that user
-    List<Complaint> findByUser_Id(Long userId);
-
-    // Staff: only complaints matching their profession/category
-    List<Complaint> findByCategoryIgnoreCase(String category);
+    List<Complaint> findByAssignedStaffId(Long staffId);
 }

@@ -10,5 +10,7 @@ public interface NotificationService {
 
     List<Notification> getAllNotifications();
 
+    List<Notification> getNotificationsByUser(Long userId);
+
     void deleteNotification(Long id);
 }

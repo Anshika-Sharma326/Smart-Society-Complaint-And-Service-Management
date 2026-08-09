@@ -49,8 +49,10 @@ public class ComplaintController {
     }
 
     @PutMapping("/{id}")
-    public Complaint updateComplaint(@PathVariable Long id,
-                                     @RequestBody Complaint complaint) {
+    public Complaint updateComplaint(
+            @PathVariable Long id,
+            @RequestBody Complaint complaint) {
+
         return complaintService.updateComplaint(id, complaint);
     }
 
@@ -59,12 +61,41 @@ public class ComplaintController {
         complaintService.deleteComplaint(id);
         return "Complaint deleted successfully";
     }
-    
+
     @GetMapping("/search")
     public List<Complaint> searchComplaint(
-            @RequestParam String keyword){
+            @RequestParam String keyword) {
 
         return complaintService.searchComplaint(keyword);
+    }
 
+    // ==========================================
+    // ASSIGN COMPLAINT TO STAFF
+    // ==========================================
+
+    @PutMapping("/{complaintId}/assign/{staffId}")
+    public Complaint assignComplaint(
+            @PathVariable Long complaintId,
+            @PathVariable Long staffId) {
+
+        return complaintService.assignComplaint(
+                complaintId,
+                staffId
+        );
+    }
+
+    // ==========================================
+    // UPDATE COMPLAINT STATUS
+    // ==========================================
+
+    @PutMapping("/{complaintId}/status")
+    public Complaint updateComplaintStatus(
+            @PathVariable Long complaintId,
+            @RequestParam String status) {
+
+        return complaintService.updateComplaintStatus(
+                complaintId,
+                status
+        );
     }
 }

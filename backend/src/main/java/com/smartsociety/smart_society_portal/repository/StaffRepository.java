@@ -12,4 +12,13 @@ public interface StaffRepository extends JpaRepository<Staff, Long> {
 
     List<Staff> findByNameContainingIgnoreCase(String keyword);
 
+    List<Staff> findByRoleIgnoreCase(String role);
+
+    List<Staff> findByRoleIgnoreCaseAndStatus(
+            String role,
+            String status
+    );
+
+    // IMPORTANT
+    List<Staff> findByStatus(String status);
 }

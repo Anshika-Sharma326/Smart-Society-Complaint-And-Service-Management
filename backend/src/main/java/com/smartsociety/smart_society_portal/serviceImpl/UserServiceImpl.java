@@ -7,7 +7,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.smartsociety.smart_society_portal.dto.StaffRegistrationRequest;
+import com.smartsociety.smart_society_portal.entity.Role;
+import com.smartsociety.smart_society_portal.entity.Staff;
+import com.smartsociety.smart_society_portal.repository.StaffRepository;
 import com.smartsociety.smart_society_portal.entity.User;
 import com.smartsociety.smart_society_portal.exception.ResourceNotFoundException;
 import com.smartsociety.smart_society_portal.repository.UserRepository;
@@ -18,7 +21,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private StaffRepository staffRepository;
     @Override
     public User registerUser(User user) {
 
@@ -130,5 +134,40 @@ public class UserServiceImpl implements UserService {
         user.setPassword(password);
 
         userRepository.save(user);
+    }
+    @Override
+    public User registerStaff(StaffRegistrationRequest request) {
+
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+
+        // Create User account
+        User user = new User();
+
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setPhone(request.getPhone());
+        user.setRole(Role.STAFF);
+
+        User savedUser = userRepository.save(user);
+
+        // Create Staff profile
+        Staff staff = new Staff();
+
+        staff.setName(request.getName());
+        staff.setRole(request.getRole());
+        staff.setMobile(request.getPhone());
+        staff.setComplaints(0);
+
+        // Admin approval required
+        staff.setStatus("PENDING");
+
+        staff.setUser(savedUser);
+
+        staffRepository.save(staff);
+
+        return savedUser;
     }
     }

@@ -50,4 +50,14 @@ public class StaffController {
 
         return staffService.searchStaff(keyword);
     }
+    @GetMapping("/pending")
+    public List<Staff> getPendingStaff() {
+
+        return staffService.getPendingStaff();
+    }
+    @PutMapping("/{id}/approve")
+    public Staff approveStaff(@PathVariable Long id) {
+
+        return staffService.approveStaff(id);
+    }
 }
