@@ -24,12 +24,15 @@ const handleSubmit = async (e) => {
     }
 
     try {
+        const userId = localStorage.getItem("userId");
+
         const complaintData = {
             title: formData.title,
             category: formData.category,
             priority: formData.priority,
             description: formData.description,
-            status: "Pending"
+            status: "Pending",
+            user: { id: userId }
         };
 
         await api.post("/complaints", complaintData);

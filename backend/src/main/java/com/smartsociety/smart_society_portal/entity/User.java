@@ -33,4 +33,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    // Only used when role == STAFF. Should match the "category" value
+    // used on Complaint (e.g. "Plumbing", "Electrical") so complaints
+    // can be filtered to the right staff member.
+    private String profession;
 }

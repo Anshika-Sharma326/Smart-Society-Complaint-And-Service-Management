@@ -22,12 +22,29 @@ public class ComplaintController {
     }
 
     @GetMapping
-    public List<Complaint> getAllComplaints() {
+    public List<Complaint> getAllComplaints(
+            @RequestParam(required = false) Long userId) {
+
+        // Frontend should always pass the logged-in user's id.
+        // Role is looked up server-side from the DB (not trusted from client)
+        // so a resident/staff cannot fake being admin by changing a param.
+        if (userId != null) {
+            return complaintService.getComplaintsForUser(userId);
+        }
+
+        // Fallback (no userId given) - kept for backward compatibility.
         return complaintService.getAllComplaints();
     }
 
     @GetMapping("/{id}")
-    public Complaint getComplaintById(@PathVariable Long id) {
+    public Complaint getComplaintById(
+            @PathVariable Long id,
+            @RequestParam(required = false) Long userId) {
+
+        if (userId != null) {
+            return complaintService.getComplaintByIdForUser(id, userId);
+        }
+
         return complaintService.getComplaintById(id);
     }
 

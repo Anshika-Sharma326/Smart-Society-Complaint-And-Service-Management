@@ -19,7 +19,8 @@ function ManageComplaints() {
 
   const fetchComplaints = async () => {
     try {
-      const response = await api.get("/complaints");
+      const userId = localStorage.getItem("userId");
+      const response = await api.get(`/complaints?userId=${userId}`);
       setComplaints(response.data);
     } catch (error) {
       console.error("Error fetching complaints:", error);

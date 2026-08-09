@@ -13,6 +13,7 @@ function Register() {
     password: "",
     confirmPassword: "",
     role: "",
+    profession: "",
   });
 
   const handleChange = (e) => {
@@ -37,6 +38,7 @@ function Register() {
         phone: formData.phone,
         password: formData.password,
         role: formData.role,
+        profession: formData.role === "STAFF" ? formData.profession : null,
       });
 
       alert("Registration successful!");
@@ -198,6 +200,30 @@ function Register() {
               </select>
 
             </div>
+
+            {formData.role === "STAFF" && (
+              <div className="input-group">
+
+                <label>🛠 Profession</label>
+
+                <select
+                  name="profession"
+                  value={formData.profession}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Profession</option>
+                  <option value="Electrical">Electrical</option>
+                  <option value="Plumbing">Plumbing</option>
+                  <option value="Cleaning">Cleaning</option>
+                  <option value="Security">Security</option>
+                  <option value="Maintenance">Maintenance</option>
+                  <option value="Parking">Parking</option>
+                  <option value="Others">Others</option>
+                </select>
+
+              </div>
+            )}
 
             <button
               type="submit"

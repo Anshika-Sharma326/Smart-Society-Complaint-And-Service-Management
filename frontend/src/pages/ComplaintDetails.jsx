@@ -15,7 +15,8 @@ function ComplaintDetails() {
 
   const loadComplaint = async () => {
     try {
-      const response = await api.get(`/complaints/${id}`);
+      const userId = localStorage.getItem("userId");
+      const response = await api.get(`/complaints/${id}?userId=${userId}`);
       setComplaint(response.data);
     } catch (error) {
       console.error(error);
