@@ -22,7 +22,9 @@ public class Staff {
 
     public Staff() {
     }
-
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
     public Staff(Long id, String name, String role,
                  String mobile, Integer complaints,
                  String status) {
@@ -80,5 +82,12 @@ public class Staff {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

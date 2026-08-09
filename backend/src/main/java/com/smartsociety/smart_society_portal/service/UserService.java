@@ -5,6 +5,7 @@ import java.util.List;
 import com.smartsociety.smart_society_portal.dto.LoginRequest;
 import com.smartsociety.smart_society_portal.dto.LoginResponse;
 import com.smartsociety.smart_society_portal.entity.User;
+import com.smartsociety.smart_society_portal.dto.StaffRegistrationRequest;
 import com.smartsociety.smart_society_portal.dto.ChangePasswordRequest;
 public interface UserService {
 
@@ -15,7 +16,7 @@ public interface UserService {
     User getUserById(Long id);
 
     User updateUser(Long id, User user);
-
+    User registerStaff(StaffRegistrationRequest request);
     void deleteUser(Long id);
    
     

@@ -17,4 +17,9 @@ public interface StaffService {
     void deleteStaff(Long id);
 
     List<Staff> searchStaff(String keyword);
+
+    // NEW
+    Staff approveStaff(Long id);
+
+    List<Staff> getPendingStaff();
 }

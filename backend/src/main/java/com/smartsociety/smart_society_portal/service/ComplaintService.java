@@ -13,7 +13,9 @@ public interface ComplaintService {
     Complaint getComplaintById(Long id);
 
     Complaint updateComplaint(Long id, Complaint complaint);
+    Complaint assignComplaint(Long complaintId, Long staffId);
 
+    Complaint updateComplaintStatus(Long complaintId, String status);
     void deleteComplaint(Long id);
     List<Complaint> searchComplaint(String keyword);
 

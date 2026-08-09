@@ -13,4 +13,5 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
     List<Complaint> findByStatus(String status);
     long countByStatus(String status);
     List<Complaint> findByTitleContainingIgnoreCase(String keyword);
+    List<Complaint> findByAssignedStaffId(Long staffId);
 }

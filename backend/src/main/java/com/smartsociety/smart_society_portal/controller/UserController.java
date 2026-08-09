@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.smartsociety.smart_society_portal.dto.StaffRegistrationRequest;
 import com.smartsociety.smart_society_portal.dto.ChangePasswordRequest;
 import com.smartsociety.smart_society_portal.dto.LoginRequest;
 import com.smartsociety.smart_society_portal.dto.LoginResponse;
@@ -146,6 +146,12 @@ public class UserController {
                 "Password Updated Successfully"
         );
 
+    }
+    @PostMapping("/register-staff")
+    public User registerStaff(
+            @RequestBody StaffRegistrationRequest request) {
+
+        return userService.registerStaff(request);
     }
 
 }
