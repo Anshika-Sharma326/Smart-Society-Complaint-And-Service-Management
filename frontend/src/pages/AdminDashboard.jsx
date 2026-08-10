@@ -30,8 +30,7 @@ function AdminDashboard() {
 
 const loadComplaints = async () => {
     try {
-        const userId = localStorage.getItem("userId");
-        const response = await api.get(`/complaints?userId=${userId}`);
+        const response = await api.get("/complaints");
         setComplaints(response.data);
     } catch (error) {
         console.error(error);

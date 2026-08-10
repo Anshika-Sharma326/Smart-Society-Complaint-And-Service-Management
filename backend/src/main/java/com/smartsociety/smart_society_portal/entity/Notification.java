@@ -16,22 +16,15 @@ public class Notification {
 
     private String type;
 
-    // Notification kis user ko bhejni hai
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
     public Notification() {
     }
 
     public Notification(Long id, String title,
-                        String message, String type,
-                        User user) {
+                        String message, String type) {
         this.id = id;
         this.title = title;
         this.message = message;
         this.type = type;
-        this.user = user;
     }
 
     public Long getId() {
@@ -64,13 +57,5 @@ public class Notification {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

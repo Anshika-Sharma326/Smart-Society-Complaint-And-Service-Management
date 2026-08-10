@@ -1,3 +1,4 @@
+
 package com.smartsociety.smart_society_portal.serviceImpl;
 
 import java.util.List;
@@ -13,15 +14,13 @@ import com.smartsociety.smart_society_portal.repository.ComplaintRepository;
 import com.smartsociety.smart_society_portal.repository.UserRepository;
 import com.smartsociety.smart_society_portal.service.ComplaintService;
 import com.smartsociety.smart_society_portal.service.NotificationService;
-import com.smartsociety.smart_society_portal.entity.Staff;
-import com.smartsociety.smart_society_portal.repository.StaffRepository;
+
 @Service
 public class ComplaintServiceImpl implements ComplaintService {
 
     @Autowired
     private ComplaintRepository complaintRepository;
-    @Autowired
-    private StaffRepository staffRepository;
+
     @Autowired
     private NotificationService notificationService;
 
@@ -40,8 +39,7 @@ public class ComplaintServiceImpl implements ComplaintService {
                 "New Complaint",
                 "Your complaint '" + savedComplaint.getTitle()
                         + "' has been submitted successfully.",
-                "COMPLAINT",
-                savedComplaint.getUser()
+                "COMPLAINT"
         );
 
         // Save notification

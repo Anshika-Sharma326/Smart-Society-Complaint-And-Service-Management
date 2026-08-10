@@ -26,8 +26,7 @@ function ChartCard() {
 
   const loadChartData = async () => {
     try {
-      const userId = localStorage.getItem("userId");
-      const response = await api.get(`/complaints?userId=${userId}`);
+      const response = await api.get("/complaints");
 
       const complaints = response.data;
 
