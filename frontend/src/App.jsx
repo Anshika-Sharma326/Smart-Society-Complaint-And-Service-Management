@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -18,7 +18,7 @@ import RoleProtectedRoute from "./components/RoleProtectedRoute";
 
 function App() {
   return (
-    <BrowserRouter>
+  
       <Routes>
         {/* Public routes */}
 
@@ -32,9 +32,7 @@ function App() {
     path="/forgot-password" 
     element={<ForgotPassword/>}
 />
-        {/* Resident routes */}
-
-        <Route
+         <Route
           path="/dashboard"
           element={
             <RoleProtectedRoute
@@ -173,7 +171,7 @@ function App() {
           }
         />
       </Routes>
-    </BrowserRouter>
+   
   );
 }
 

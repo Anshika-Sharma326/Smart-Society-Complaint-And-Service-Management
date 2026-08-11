@@ -26,29 +26,70 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    // ==========================================
+    // PASSWORD VALIDATION
+    // ==========================================
+
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match.");
       return;
     }
 
     try {
-      await api.post("/users", {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        password: formData.password,
-        role: formData.role,
-        profession: formData.role === "STAFF" ? formData.profession : null,
-      });
+      // ==========================================
+      // STAFF REGISTRATION
+      // ==========================================
 
-      alert("Registration successful!");
+      if (formData.role === "STAFF") {
+        await api.post("/users/register-staff", {
+    name: formData.name,
+    email: formData.email,
+    phone: formData.phone,
+    password: formData.password,
+    profession: formData.profession,
+});
+
+        alert(
+          "Staff registration successful! Waiting for admin approval."
+        );
+      }
+
+      // ==========================================
+      // RESIDENT / ADMIN REGISTRATION
+      // ==========================================
+
+      else {
+        await api.post("/users/register", {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+          role: formData.role,
+          profession: null,
+        });
+
+        alert("Registration successful!");
+      }
+
+      // ==========================================
+      // GO TO LOGIN
+      // ==========================================
 
       navigate("/");
+
     } catch (error) {
-      console.error(error);
+      console.error("Registration Error:", error);
 
       if (error.response) {
-        alert(error.response.data);
+        console.error("Backend response:", error.response.data);
+
+        if (typeof error.response.data === "string") {
+          alert(error.response.data);
+        } else if (error.response.data?.message) {
+          alert(error.response.data.message);
+        } else {
+          alert("Registration failed.");
+        }
       } else {
         alert("Server is not running.");
       }
@@ -58,7 +99,7 @@ function Register() {
   return (
     <div className="register-container">
 
-      {/* Left Section */}
+      {/* ================= LEFT SECTION ================= */}
 
       <div className="left-panel">
 
@@ -94,7 +135,8 @@ function Register() {
 
       </div>
 
-      {/* Right Section */}
+
+      {/* ================= RIGHT SECTION ================= */}
 
       <div className="right-panel">
 
@@ -107,6 +149,8 @@ function Register() {
           </p>
 
           <form onSubmit={handleRegister}>
+
+            {/* FULL NAME */}
 
             <div className="input-group">
 
@@ -123,6 +167,9 @@ function Register() {
 
             </div>
 
+
+            {/* EMAIL */}
+
             <div className="input-group">
 
               <label>📧 Email Address</label>
@@ -137,6 +184,9 @@ function Register() {
               />
 
             </div>
+
+
+            {/* PHONE */}
 
             <div className="input-group">
 
@@ -153,6 +203,9 @@ function Register() {
 
             </div>
 
+
+            {/* PASSWORD */}
+
             <div className="input-group">
 
               <label>🔒 Password</label>
@@ -167,6 +220,9 @@ function Register() {
               />
 
             </div>
+
+
+            {/* CONFIRM PASSWORD */}
 
             <div className="input-group">
 
@@ -183,6 +239,9 @@ function Register() {
 
             </div>
 
+
+            {/* ROLE */}
+
             <div className="input-group">
 
               <label>👥 Select Role</label>
@@ -193,15 +252,32 @@ function Register() {
                 onChange={handleChange}
                 required
               >
-                <option value="">Choose Role</option>
-                <option value="RESIDENT">Resident</option>
-                <option value="STAFF">Staff</option>
-                <option value="ADMIN">Admin</option>
+
+                <option value="">
+                  Choose Role
+                </option>
+
+                <option value="RESIDENT">
+                  Resident
+                </option>
+
+                <option value="STAFF">
+                  Staff
+                </option>
+
+                <option value="ADMIN">
+                  Admin
+                </option>
+
               </select>
 
             </div>
 
+
+            {/* PROFESSION - STAFF ONLY */}
+
             {formData.role === "STAFF" && (
+
               <div className="input-group">
 
                 <label>🛠 Profession</label>
@@ -212,18 +288,47 @@ function Register() {
                   onChange={handleChange}
                   required
                 >
-                  <option value="">Select Profession</option>
-                  <option value="Electrical">Electrical</option>
-                  <option value="Plumbing">Plumbing</option>
-                  <option value="Cleaning">Cleaning</option>
-                  <option value="Security">Security</option>
-                  <option value="Maintenance">Maintenance</option>
-                  <option value="Parking">Parking</option>
-                  <option value="Others">Others</option>
+
+                  <option value="">
+                    Select Profession
+                  </option>
+
+                  <option value="Electrical">
+                    Electrical
+                  </option>
+
+                  <option value="Plumbing">
+                    Plumbing
+                  </option>
+
+                  <option value="Cleaning">
+                    Cleaning
+                  </option>
+
+                  <option value="Security">
+                    Security
+                  </option>
+
+                  <option value="Maintenance">
+                    Maintenance
+                  </option>
+
+                  <option value="Parking">
+                    Parking
+                  </option>
+
+                  <option value="Others">
+                    Others
+                  </option>
+
                 </select>
 
               </div>
+
             )}
+
+
+            {/* REGISTER BUTTON */}
 
             <button
               type="submit"
@@ -234,11 +339,14 @@ function Register() {
 
           </form>
 
+
           <div className="login-text">
 
             Already have an account?
 
-            <Link to="/"> Login</Link>
+            <Link to="/">
+              {" "}Login
+            </Link>
 
           </div>
 

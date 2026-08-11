@@ -1,6 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
-import { useLocation } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 
 
@@ -8,9 +7,6 @@ function Sidebar({ open, setOpen }) {
 
   const role = localStorage.getItem("userRole");
   const navigate = useNavigate();
-  const location = useLocation();
-
-
   const handleLogout = () => {
     localStorage.clear();
     navigate("/");

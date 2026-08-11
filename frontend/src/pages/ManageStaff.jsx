@@ -14,17 +14,22 @@ function ManageStaff() {
   const [editStaff, setEditStaff] = useState(null);
 
   useEffect(() => {
-    loadStaff();
-  }, []);
-
+  console.log("ManageStaff loaded");
+  loadStaff();
+}, []);
   const loadStaff = async () => {
-    try {
-      const response = await api.get("/staff");
-      setStaff(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  try {
+    console.log("Calling /staff API...");
+
+    const response = await api.get("/staff");
+
+    console.log("API RESPONSE:", response.data);
+    console.log("STAFF STATUS:", response.data[0]?.status);
+    setStaff(response.data);
+  } catch (error) {
+    console.error("STAFF API ERROR:", error);
+  }
+};
 
   const addStaff = async (staffMember) => {
     try {
@@ -62,7 +67,14 @@ function ManageStaff() {
       console.error(error);
     }
   };
-
+const approveStaff = async (id) => {
+  try {
+    await api.put(`/staff/${id}/approve`);
+    loadStaff();
+  } catch (error) {
+    console.error(error);
+  }
+};
   const filteredStaff = staff.filter(
     (member) =>
       member.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -106,63 +118,69 @@ function ManageStaff() {
           </thead>
 
           <tbody>
-            {filteredStaff.length > 0 ? (
-              filteredStaff.map((member) => (
-                <tr key={member.id}>
-                  <td>{member.id}</td>
-                  <td>{member.name}</td>
-                  <td>{member.role}</td>
-                  <td>{member.mobile}</td>
-                  <td>{member.complaints}</td>
+           {filteredStaff.length > 0 ? (
+  filteredStaff.map((member) => (
+    <tr key={member.id}>
+      <td>{member.id}</td>
+      <td>{member.name}</td>
+      <td>{member.role}</td>
+      <td>{member.mobile}</td>
+      <td>{member.complaints}</td>
 
-                  <td>
-                    <span
-                      className={
-                        member.status === "Available"
-                          ? "available"
-                          : "busy"
-                      }
-                    >
-                      {member.status}
-                    </span>
-                  </td>
+      <td>
+        <span
+          className={
+            member.status === "AVAILABLE"
+              ? "available"
+              : member.status === "PENDING"
+              ? "pending"
+              : "busy"
+          }
+        >
+          {member.status}
+        </span>
+      </td>
 
-                  <td>
-                   <button
-    className="view"
-    onClick={() => setSelectedStaff(member)}
->
-    View
-</button>
+      <td>
+        <button
+          className="view"
+          onClick={() => setSelectedStaff(member)}
+        >
+          View
+        </button>
 
-                    <button
-                      className="edit"
-                      onClick={() => setEditStaff(member)}
-                    >
-                      Edit
-                    </button>
+        {member.status === "PENDING" && (
+          <button
+            className="approve"
+            onClick={() => approveStaff(member.id)}
+          >
+            Approve
+          </button>
+        )}
 
-                    <button
-                      className="delete"
-                      onClick={() =>
-                        deleteStaff(member.id)
-                      }
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan="7"
-                  style={{ textAlign: "center" }}
-                >
-                  No staff members found.
-                </td>
-              </tr>
-            )}
+        <button
+          className="edit"
+          onClick={() => setEditStaff(member)}
+        >
+          Edit
+        </button>
+
+        <button
+          className="delete"
+          onClick={() => deleteStaff(member.id)}
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))
+) : (
+  <tr>
+    <td colSpan="7" style={{ textAlign: "center" }}>
+      No staff members found.
+    </td>
+  </tr>
+)}
           </tbody>
         </table>
 

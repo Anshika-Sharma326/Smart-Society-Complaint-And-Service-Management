@@ -2,10 +2,10 @@
    Admin Dashboard
 ========================== */
 
-.admin-dashboard{
-    padding:30px;
-    background:#F8FAFC;
-    min-height:100vh;
+.admin-dashboard {
+    padding: 10px 30px 30px 30px;
+    background: #F8FAFC;
+    min-height: 100vh;
 }
 
 .admin-dashboard h1{
@@ -13,6 +13,7 @@
     color:#0F172A;
     font-size:34px;
     font-weight:700;
+       margin-top: 0;
 }
 
 /* ==========================
@@ -343,4 +344,197 @@ min-width:700px;
 
 .admin-card.resolved h2{
     color:#10B981;
+}
+/* ==========================
+   FIX PENDING CARD
+========================== */
+
+.admin-card.pending {
+    background: #FFFFFF !important;
+    border-top: 6px solid #F59E0B !important;
+}
+
+.admin-card.pending h2 {
+    color: #F59E0B !important;
+}
+
+.admin-card.pending h3 {
+    color: #475569 !important;
+}
+/* ==========================
+   Admin Card Consistent Style
+========================== */
+
+.admin-card {
+    background: #ffffff !important;
+    padding: 25px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+    transition: 0.3s;
+    border-top: 6px solid transparent;
+}
+
+/* Card Heading - same for all cards */
+.admin-card h3 {
+    color: #475569 !important;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+/* Card Number */
+.admin-card h2 {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+/* Total Residents */
+.admin-card.users {
+    border-top-color: #8B5CF6;
+}
+
+.admin-card.users h2 {
+    color: #8B5CF6 !important;
+}
+
+/* Total Complaints */
+.admin-card.complaints {
+    border-top-color: #06B6D4;
+}
+
+.admin-card.complaints h2 {
+    color: #06B6D4 !important;
+}
+
+/* Pending */
+.admin-card.pending {
+    background: #ffffff !important;
+    border-top-color: #F59E0B !important;
+}
+
+.admin-card.pending h3 {
+    color: #475569 !important;
+}
+
+.admin-card.pending h2 {
+    color: #F59E0B !important;
+}
+
+/* Resolved */
+.admin-card.resolved {
+    border-top-color: #10B981;
+}
+
+.admin-card.resolved h2 {
+    color: #10B981 !important;
+}
+/* ==========================
+   Recent Complaints
+========================== */
+
+.recent-complaints {
+    margin-top: 35px;
+}
+
+.recent-complaints h2 {
+    margin-top: 20;
+    margin-bottom: 25px;
+}
+/* =========================================
+   ADMIN DASHBOARD - FIX ALL CARDS
+========================================= */
+
+.admin-cards .admin-card {
+  background: #ffffff !important;
+  padding: 25px !important;
+  border-radius: 18px !important;
+  text-align: center !important;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08) !important;
+  transition: 0.3s !important;
+  box-sizing: border-box !important;
+}
+
+/* Hover */
+
+.admin-cards .admin-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.15) !important;
+}
+
+/* =========================================
+   ALL HEADINGS SAME
+========================================= */
+
+.admin-cards .admin-card h3 {
+  color: #475569 !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  margin: 0 0 12px 0 !important;
+}
+
+/* =========================================
+   ALL NUMBERS SAME SIZE
+========================================= */
+
+.admin-cards .admin-card h2 {
+  font-size: 36px !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+}
+
+/* =========================================
+   TOTAL RESIDENTS
+========================================= */
+
+.admin-cards .admin-card.users {
+  background: #ffffff !important;
+  border-top: 6px solid #8B5CF6 !important;
+}
+
+.admin-cards .admin-card.users h2 {
+  color: #8B5CF6 !important;
+}
+
+/* =========================================
+   TOTAL COMPLAINTS
+========================================= */
+
+.admin-cards .admin-card.complaints {
+  background: #ffffff !important;
+  border-top: 6px solid #06B6D4 !important;
+}
+
+.admin-cards .admin-card.complaints h2 {
+  color: #06B6D4 !important;
+}
+
+/* =========================================
+   PENDING
+========================================= */
+
+.admin-cards .admin-card.pending {
+  background: #ffffff !important;
+  border-top: 6px solid #F59E0B !important;
+}
+
+.admin-cards .admin-card.pending h3 {
+  color: #475569 !important;
+}
+
+.admin-cards .admin-card.pending h2 {
+  color: #F59E0B !important;
+}
+
+/* =========================================
+   RESOLVED
+========================================= */
+
+.admin-cards .admin-card.resolved {
+  background: #ffffff !important;
+  border-top: 6px solid #10B981 !important;
+}
+
+.admin-cards .admin-card.resolved h2 {
+  color: #10B981 !important;
 }

@@ -3,43 +3,42 @@ import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
 function Layout({ children }) {
+    const [open, setOpen] = useState(false);
 
-  const [open, setOpen] = useState(false);
+    return (
+        <div
+            style={{
+                minHeight: "100vh",
+                background: "#F5F7FB",
+            }}
+        >
+            {/* Navbar */}
+            <Navbar
+                open={open}
+                setOpen={setOpen}
+            />
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        background: "#F5F7FB",
+            {/* Sidebar */}
+            <Sidebar
+                open={open}
+                setOpen={setOpen}
+            />
+
+            {/* Main Content */}
+           <main
+    style={{
+        marginLeft: open ? "260px" : "0px",
+        padding: "24px 32px",
+        paddingTop: "10px",
         minHeight: "100vh",
-      }}
-    >
-
-      <Navbar 
-        open={open}
-        setOpen={setOpen}
-      />
-
-      <Sidebar
-        open={open}
-        setOpen={setOpen}
-      />
-
-
-      <main
-        style={{
-          flex: 1,
-          marginLeft: open ? "260px" : "0px",
-          transition: "0.3s ease",
-          padding: "20px",
-          marginTop: "72px"
-        }}
-      >
-        {children}
-      </main>
-
-    </div>
-  );
+        boxSizing: "border-box",
+        transition: "margin-left 0.3s ease",
+    }}
+>
+                {children}
+            </main>
+        </div>
+    );
 }
 
 export default Layout;

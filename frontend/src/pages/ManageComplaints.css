@@ -2,15 +2,14 @@
    Manage Page
 ========================== */
 
-.manage-container{
-    padding:30px;
+.manage-complaints{
+    padding:25px 30px 30px;
     background:#F8FAFC;
     min-height:100vh;
 }
-
-.manage-container h1{
+.manage-complaints h1{
     color:#0F172A;
-    margin-bottom:30px;
+    margin:0 0 25px 0;
     font-size:34px;
     font-weight:700;
 }

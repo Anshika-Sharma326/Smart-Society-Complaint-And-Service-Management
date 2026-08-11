@@ -80,6 +80,7 @@ function MyComplaints() {
               <th>Category</th>
               <th>Priority</th>
               <th>Status</th>
+              <th>Assigned Staff</th>
               <th>Date</th>
               <th>Action</th>
             </tr>
@@ -102,7 +103,17 @@ function MyComplaints() {
                     {item.status}
                   </span>
                 </td>
-
+                <td>
+  {item.assignedStaff ? (
+    <div>
+      <strong>{item.assignedStaff.name}</strong>
+      <br />
+      <small>{item.assignedStaff.role}</small>
+    </div>
+  ) : (
+    "Not Assigned"
+  )}
+</td>
                 <td>{new Date(item.createdAt).toLocaleDateString()}</td>
 
                 <td>

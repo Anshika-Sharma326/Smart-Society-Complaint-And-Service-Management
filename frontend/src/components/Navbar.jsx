@@ -1,95 +1,102 @@
-import "./Navbar.css";
-import { useEffect, useState } from "react";
+import { useNotifications } from "../context/NotificationContext";
 import { useNavigate } from "react-router-dom";
+
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import Badge from "@mui/material/Badge";
-import api from "../services/api";
+
+import "./Navbar.css";
 
 function Navbar({ open, setOpen }) {
 
-  const navigate = useNavigate();
+    const { notificationCount } =
+        useNotifications();
 
-  const [notificationCount, setNotificationCount] = useState(0);
+    const navigate = useNavigate();
 
-  const userName = localStorage.getItem("userName") || "User";
 
-  // Load notification count
-  const loadNotificationCount = async () => {
-    try {
-      const response = await api.get("/notifications");
+    // ==========================================
+    // GET FULL NAME
+    // ==========================================
 
-      // Currently every notification in the database
-      // is treated as unread.
-      setNotificationCount(response.data.length);
+    const userName =
+        localStorage.getItem("userName") || "User";
 
-    } catch (error) {
-      console.error("Error loading notifications:", error);
-    }
-  };
 
-  useEffect(() => {
+    return (
 
-    loadNotificationCount();
+        <nav className="navbar">
 
-    // Check for new notifications every 3 seconds
-    const interval = setInterval(() => {
-      loadNotificationCount();
-    }, 3000);
+            {/* MENU BUTTON */}
 
-    return () => clearInterval(interval);
+            <MenuIcon
+                className="menu-btn"
+                onClick={() =>
+                    setOpen(!open)
+                }
+            />
 
-  }, []);
 
-  return (
+            {/* LEFT */}
 
-    <nav className="navbar">
+            <div className="navbar-left">
 
-      <MenuIcon
-        className="menu-btn"
-        onClick={() => setOpen(!open)}
-      />
+                <h2>
+                    Smart Society Portal
+                </h2>
 
-      <div className="navbar-left">
+            </div>
 
-        <h2>
-          Smart Society Portal
-        </h2>
 
-      </div>
+            {/* RIGHT */}
 
-      <div className="navbar-right">
+            <div className="navbar-right">
 
-        <Badge
-          badgeContent={notificationCount}
-          color="error"
-          max={99}
-          showZero={false}
-          overlap="circular"
-        >
+                {/* NOTIFICATIONS */}
 
-          <NotificationsOutlinedIcon
-            className="nav-icon"
-            onClick={() => navigate("/notifications")}
-          />
+                <Badge
+                    badgeContent={notificationCount}
+                    color="error"
+                    max={99}
+                    showZero={false}
+                    overlap="circular"
+                >
 
-        </Badge>
+                    <NotificationsOutlinedIcon
+                        className="nav-icon"
+                        onClick={() =>
+                            navigate(
+                                "/notifications"
+                            )
+                        }
+                    />
 
-        <SettingsOutlinedIcon
-          className="nav-icon"
-          onClick={() => navigate("/profile")}
-        />
+                </Badge>
 
-        <div className="user-info">
-          👤 {userName}
-        </div>
 
-      </div>
+                {/* SETTINGS / PROFILE */}
 
-    </nav>
+                <SettingsOutlinedIcon
+                    className="nav-icon"
+                    onClick={() =>
+                        navigate("/profile")
+                    }
+                />
 
-  );
+
+                {/* USER FULL NAME */}
+
+                <div className="user-info">
+
+                    👤 {userName}
+
+                </div>
+
+            </div>
+
+        </nav>
+    );
 }
 
 export default Navbar;

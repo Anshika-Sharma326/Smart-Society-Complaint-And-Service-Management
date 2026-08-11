@@ -9,11 +9,10 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  Button
+  Button,
 } from "@mui/material";
 
 function Profile() {
-
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -31,155 +30,207 @@ function Profile() {
     email: "",
     phone: "",
     role: "",
+    profession: "",
   });
+
+  // ==========================================
+  // LOAD PROFILE
+  // ==========================================
 
   useEffect(() => {
     loadProfile();
   }, []);
 
   const loadProfile = async () => {
-
     try {
+      const userId = localStorage.getItem("userId");
 
-      const email = localStorage.getItem("userEmail");
+      console.log("Profile User ID:", userId);
+
+      if (!userId || userId === "undefined" || userId === "null") {
+        console.error("User ID not found in localStorage");
+        return;
+      }
+
+      // Backend endpoint:
+      // GET /api/users/{id}
 
       const response = await api.get(
-        `/users/profile/${email}`
+        `/users/${userId}`
       );
 
-      setUser(response.data);
+      console.log("PROFILE API RESPONSE:", response.data);
+
+      setUser({
+        name: response.data.name || "",
+        email: response.data.email || "",
+        phone: response.data.phone || "",
+        role: response.data.role || "",
+        profession: response.data.profession || "",
+      });
 
     } catch (error) {
+      console.error(
+        "Error loading profile:",
+        error
+      );
 
-      console.log(error);
-
+      console.error(
+        "Server response:",
+        error.response?.data
+      );
     }
-
   };
+
+  // ==========================================
+  // CLOSE EDIT DIALOG
+  // ==========================================
 
   const handleClose = () => {
-
     setOpenEdit(false);
-
   };
+
+  // ==========================================
+  // EDIT CHANGE
+  // ==========================================
 
   const handleEditChange = (e) => {
-
     setEditData({
-
       ...editData,
-
       [e.target.name]: e.target.value,
-
     });
-
   };
 
+  // ==========================================
+  // SAVE PROFILE
+  // ==========================================
+
   const handleSave = async () => {
-
     try {
-
       const userId =
         localStorage.getItem("userId");
 
       await api.put(
         `/users/${userId}`,
         {
-
           name: editData.name,
-
           phone: editData.phone,
-
         }
       );
 
-      alert("Profile Updated Successfully");
+      // Update localStorage name also
+      localStorage.setItem(
+        "userName",
+        editData.name
+      );
 
-      loadProfile();
+      alert(
+        "Profile Updated Successfully"
+      );
+
+      await loadProfile();
 
       setOpenEdit(false);
 
     } catch (error) {
+      console.error(
+        "Profile update error:",
+        error
+      );
 
-      console.log(error);
+      console.error(
+        "Server response:",
+        error.response?.data
+      );
 
-      alert("Unable to update profile");
-
+      alert(
+        error.response?.data ||
+        "Unable to update profile"
+      );
     }
-
   };
+
+  // ==========================================
+  // CHANGE PASSWORD
+  // ==========================================
 
   const handleChangePassword = async () => {
 
-    if (newPassword !== confirmPassword) {
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      alert("Please fill all password fields");
+      return;
+    }
 
+    if (newPassword !== confirmPassword) {
       alert(
         "New Password and Confirm Password do not match"
       );
-
       return;
-
     }
 
     try {
-
       const userId =
         localStorage.getItem("userId");
 
+      // Backend endpoint:
+      // PUT /api/users/{id}/change-password
+
       const response = await api.put(
-
-        `/users/change-password/${userId}`,
-
+        `/users/${userId}/change-password`,
         {
-
           oldPassword,
-
           newPassword,
-
         }
-
       );
 
       alert(response.data);
 
       setOldPassword("");
-
       setNewPassword("");
-
       setConfirmPassword("");
 
       setOpenPassword(false);
 
     } catch (error) {
-
-      console.log(error);
+      console.error(
+        "Change password error:",
+        error
+      );
 
       alert(
         error.response?.data ||
         "Unable to change password"
       );
-
     }
-
   };
 
   return (
-
     <Layout>
 
       <div className="profile-container">
 
         <div className="profile-card">
 
+          {/* ==========================================
+              TITLE
+          ========================================== */}
+
           <div className="profile-title">
 
-            <h1>My Profile</h1>
+            <h1>
+              My Profile
+            </h1>
 
             <p>
               Manage your personal information
             </p>
 
           </div>
+
+
+          {/* ==========================================
+              PROFILE HEADER
+          ========================================== */}
 
           <div className="profile-header">
 
@@ -188,21 +239,29 @@ function Profile() {
               alt="Profile"
             />
 
-            <h2>{user.name}</h2>
+            <h2>
+              {user.name || "Loading..."}
+            </h2>
 
             <span>
-              {user.role} • Smart Society
+              {user.role || "User"} • Smart Society
             </span>
 
           </div>
 
+
+          {/* ==========================================
+              PERSONAL INFORMATION
+          ========================================== */}
+
           <div className="section-title">
-
             Personal Information
-
           </div>
 
+
           <div className="profile-details">
+
+            {/* FULL NAME */}
 
             <div className="detail">
 
@@ -212,11 +271,14 @@ function Profile() {
 
               <input
                 type="text"
-                value={user.name}
+                value={user.name || ""}
                 readOnly
               />
 
             </div>
+
+
+            {/* EMAIL */}
 
             <div className="detail">
 
@@ -226,11 +288,14 @@ function Profile() {
 
               <input
                 type="email"
-                value={user.email}
+                value={user.email || ""}
                 readOnly
               />
 
             </div>
+
+
+            {/* PHONE */}
 
             <div className="detail">
 
@@ -240,11 +305,14 @@ function Profile() {
 
               <input
                 type="text"
-                value={user.phone}
+                value={user.phone || ""}
                 readOnly
               />
 
             </div>
+
+
+            {/* ROLE */}
 
             <div className="detail">
 
@@ -254,16 +322,37 @@ function Profile() {
 
               <input
                 type="text"
-                value={user.role}
+                value={user.role || ""}
                 readOnly
               />
 
             </div>
 
+
+            {/* PROFESSION - STAFF ONLY */}
+
+            {user.role === "STAFF" && (
+              <div className="detail">
+
+                <label>
+                  🛠 Profession
+                </label>
+
+                <input
+                  type="text"
+                  value={user.profession || ""}
+                  readOnly
+                />
+
+              </div>
+            )}
+
           </div>
-                    {/* ===========================
-              Security Section
-          =========================== */}
+
+
+          {/* ==========================================
+              SECURITY
+          ========================================== */}
 
           <div className="security-section">
 
@@ -273,7 +362,7 @@ function Profile() {
 
             <div className="security-wrapper">
 
-              {/* Left Card */}
+              {/* LEFT */}
 
               <div className="password-card">
 
@@ -281,7 +370,9 @@ function Profile() {
                   🔒
                 </div>
 
-                <h3>Password</h3>
+                <h3>
+                  Password
+                </h3>
 
                 <p>
                   Your password is securely encrypted
@@ -290,11 +381,11 @@ function Profile() {
 
               </div>
 
-              {/* Divider */}
 
               <div className="security-divider"></div>
 
-              {/* Right Card */}
+
+              {/* RIGHT */}
 
               <div className="security-info-card">
 
@@ -311,7 +402,9 @@ function Profile() {
 
                 <button
                   className="password-btn"
-                  onClick={() => setOpenPassword(true)}
+                  onClick={() =>
+                    setOpenPassword(true)
+                  }
                 >
                   🔒 Change Password
                 </button>
@@ -323,9 +416,9 @@ function Profile() {
           </div>
 
 
-          {/* ===========================
-                Manage Profile
-          =========================== */}
+          {/* ==========================================
+              MANAGE PROFILE
+          ========================================== */}
 
           <div className="manage-card">
 
@@ -348,8 +441,8 @@ function Profile() {
               onClick={() => {
 
                 setEditData({
-                  name: user.name,
-                  phone: user.phone,
+                  name: user.name || "",
+                  phone: user.phone || "",
                 });
 
                 setOpenEdit(true);
@@ -360,171 +453,179 @@ function Profile() {
             </button>
 
           </div>
-                {/* ==========================================
-          Edit Profile Dialog
-      ========================================== */}
 
-      <Dialog
-        open={openEdit}
-        onClose={handleClose}
-        fullWidth
-        maxWidth="sm"
-      >
-        <DialogTitle
-          sx={{
-            textAlign: "center",
-            fontSize: "30px",
-            fontWeight: "700",
-            color: "#0F172A"
-          }}
-        >
-          ✏ Edit Profile
-        </DialogTitle>
 
-        <DialogContent>
+          {/* ==========================================
+              EDIT PROFILE DIALOG
+          ========================================== */}
 
-          <TextField
+          <Dialog
+            open={openEdit}
+            onClose={handleClose}
             fullWidth
-            margin="normal"
-            label="Full Name"
-            name="name"
-            value={editData.name}
-            onChange={handleEditChange}
-          />
-
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Email Address"
-            value={user.email}
-            InputProps={{
-              readOnly: true
-            }}
-          />
-
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Phone Number"
-            name="phone"
-            value={editData.phone}
-            onChange={handleEditChange}
-          />
-
-        </DialogContent>
-
-        <DialogActions
-          sx={{
-            padding: "20px 24px"
-          }}
-        >
-
-          <Button
-            variant="outlined"
-            onClick={handleClose}
+            maxWidth="sm"
           >
-            Cancel
-          </Button>
 
-          <Button
-            variant="contained"
-            onClick={handleSave}
-          >
-            Save Changes
-          </Button>
+            <DialogTitle
+              sx={{
+                textAlign: "center",
+                fontSize: "30px",
+                fontWeight: "700",
+                color: "#0F172A",
+              }}
+            >
+              ✏ Edit Profile
+            </DialogTitle>
 
-        </DialogActions>
+            <DialogContent>
 
-      </Dialog>
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Full Name"
+                name="name"
+                value={editData.name}
+                onChange={handleEditChange}
+              />
+
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Email Address"
+                value={user.email}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Phone Number"
+                name="phone"
+                value={editData.phone}
+                onChange={handleEditChange}
+              />
+
+            </DialogContent>
+
+            <DialogActions
+              sx={{
+                padding: "20px 24px",
+              }}
+            >
+
+              <Button
+                variant="outlined"
+                onClick={handleClose}
+              >
+                Cancel
+              </Button>
+
+              <Button
+                variant="contained"
+                onClick={handleSave}
+              >
+                Save Changes
+              </Button>
+
+            </DialogActions>
+
+          </Dialog>
 
 
-      {/* ==========================================
-          Change Password Dialog
-      ========================================== */}
+          {/* ==========================================
+              CHANGE PASSWORD DIALOG
+          ========================================== */}
 
-      <Dialog
-        open={openPassword}
-        onClose={() => setOpenPassword(false)}
-        fullWidth
-        maxWidth="sm"
-      >
-
-        <DialogTitle
-          sx={{
-            textAlign: "center",
-            fontSize: "30px",
-            fontWeight: "700",
-            color: "#0F172A"
-          }}
-        >
-          🔒 Change Password
-        </DialogTitle>
-
-        <DialogContent>
-
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Current Password"
-            type="password"
-            value={oldPassword}
-            onChange={(e) =>
-              setOldPassword(e.target.value)
-            }
-          />
-
-          <TextField
-            fullWidth
-            margin="normal"
-            label="New Password"
-            type="password"
-            value={newPassword}
-            onChange={(e) =>
-              setNewPassword(e.target.value)
-            }
-          />
-
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Confirm New Password"
-            type="password"
-            value={confirmPassword}
-            onChange={(e) =>
-              setConfirmPassword(e.target.value)
-            }
-          />
-
-        </DialogContent>
-
-        <DialogActions
-          sx={{
-            padding: "20px 24px"
-          }}
-        >
-
-          <Button
-            variant="outlined"
-            onClick={() =>
+          <Dialog
+            open={openPassword}
+            onClose={() =>
               setOpenPassword(false)
             }
+            fullWidth
+            maxWidth="sm"
           >
-            Cancel
-          </Button>
 
-          <Button
-            variant="contained"
-            onClick={handleChangePassword}
-          >
-            Update Password
-          </Button>
+            <DialogTitle
+              sx={{
+                textAlign: "center",
+                fontSize: "30px",
+                fontWeight: "700",
+                color: "#0F172A",
+              }}
+            >
+              🔒 Change Password
+            </DialogTitle>
 
-        </DialogActions>
+            <DialogContent>
 
-      </Dialog>
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Current Password"
+                type="password"
+                value={oldPassword}
+                onChange={(e) =>
+                  setOldPassword(e.target.value)
+                }
+              />
+
+              <TextField
+                fullWidth
+                margin="normal"
+                label="New Password"
+                type="password"
+                value={newPassword}
+                onChange={(e) =>
+                  setNewPassword(e.target.value)
+                }
+              />
+
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Confirm New Password"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) =>
+                  setConfirmPassword(e.target.value)
+                }
+              />
+
+            </DialogContent>
+
+            <DialogActions
+              sx={{
+                padding: "20px 24px",
+              }}
+            >
+
+              <Button
+                variant="outlined"
+                onClick={() =>
+                  setOpenPassword(false)
+                }
+              >
+                Cancel
+              </Button>
+
+              <Button
+                variant="contained"
+                onClick={handleChangePassword}
+              >
+                Update Password
+              </Button>
+
+            </DialogActions>
+
+          </Dialog>
+
+        </div>
+
       </div>
-      </div>
-          </Layout>
+
+    </Layout>
   );
 }
 
