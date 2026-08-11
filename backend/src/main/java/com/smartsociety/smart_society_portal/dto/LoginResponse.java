@@ -2,35 +2,46 @@ package com.smartsociety.smart_society_portal.dto;
 
 public class LoginResponse {
 
-    private Long id;
+    private Long userId;
+    private Long staffId;
     private String message;
     private String role;
-    private String name;
-    private String email;
+    private String fullName;
+    private String profession;
 
     public LoginResponse() {
     }
 
     public LoginResponse(
-            Long id,
+            Long userId,
+            Long staffId,
             String message,
             String role,
-            String name,
-            String email
+            String fullName,
+            String profession
     ) {
-        this.id = id;
+        this.userId = userId;
+        this.staffId = staffId;
         this.message = message;
         this.role = role;
-        this.name = name;
-        this.email = email;
+        this.fullName = fullName;
+        this.profession = profession;
     }
 
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(Long staffId) {
+        this.staffId = staffId;
     }
 
     public String getMessage() {
@@ -49,19 +60,19 @@ public class LoginResponse {
         this.role = role;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getProfession() {
+        return profession;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setProfession(String profession) {
+        this.profession = profession;
     }
 }

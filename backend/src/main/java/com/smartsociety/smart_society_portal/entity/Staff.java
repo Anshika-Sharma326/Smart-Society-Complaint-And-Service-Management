@@ -20,14 +20,17 @@ public class Staff {
 
     private String status;
 
-    public Staff() {
-    }
     @OneToOne
     @JoinColumn(name = "user_id", unique = true)
     private User user;
+
+    public Staff() {
+    }
+
     public Staff(Long id, String name, String role,
                  String mobile, Integer complaints,
                  String status) {
+
         this.id = id;
         this.name = name;
         this.role = role;
@@ -83,6 +86,7 @@ public class Staff {
     public void setStatus(String status) {
         this.status = status;
     }
+
     public User getUser() {
         return user;
     }

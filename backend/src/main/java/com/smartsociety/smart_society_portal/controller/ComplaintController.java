@@ -16,48 +16,127 @@ public class ComplaintController {
     @Autowired
     private ComplaintService complaintService;
 
+
+    // =====================================================
+    // ADD COMPLAINT
+    // =====================================================
+
     @PostMapping
-    public Complaint addComplaint(@RequestBody Complaint complaint) {
-        return complaintService.addComplaint(complaint);
+    public Complaint addComplaint(
+            @RequestBody Complaint complaint) {
+
+        return complaintService.addComplaint(
+                complaint
+        );
     }
+
+
+    // =====================================================
+    // GET COMPLAINTS
+    // =====================================================
 
     @GetMapping
     public List<Complaint> getAllComplaints(
             @RequestParam(required = false) Long userId) {
 
-        // Frontend should always pass the logged-in user's id.
-        // Role is looked up server-side from the DB (not trusted from client)
-        // so a resident/staff cannot fake being admin by changing a param.
         if (userId != null) {
-            return complaintService.getComplaintsForUser(userId);
+
+            return complaintService
+                    .getComplaintsForUser(userId);
         }
 
-        // Fallback (no userId given) - kept for backward compatibility.
-        return complaintService.getAllComplaints();
+
+        return complaintService
+                .getAllComplaints();
     }
+
+
+    // =====================================================
+    // GET BY ID
+    // =====================================================
 
     @GetMapping("/{id}")
-    public Complaint getComplaintById(@PathVariable Long id) {
-        return complaintService.getComplaintById(id);
+    public Complaint getComplaintById(
+            @PathVariable Long id) {
+
+        return complaintService
+                .getComplaintById(id);
     }
+
+
+    // =====================================================
+    // UPDATE
+    // =====================================================
 
     @PutMapping("/{id}")
-    public Complaint updateComplaint(@PathVariable Long id,
-                                     @RequestBody Complaint complaint) {
-        return complaintService.updateComplaint(id, complaint);
+    public Complaint updateComplaint(
+            @PathVariable Long id,
+            @RequestBody Complaint complaint) {
+
+        return complaintService
+                .updateComplaint(
+                        id,
+                        complaint
+                );
     }
+
+
+    // =====================================================
+    // DELETE
+    // =====================================================
 
     @DeleteMapping("/{id}")
-    public String deleteComplaint(@PathVariable Long id) {
-        complaintService.deleteComplaint(id);
+    public String deleteComplaint(
+            @PathVariable Long id) {
+
+        complaintService
+                .deleteComplaint(id);
+
         return "Complaint deleted successfully";
     }
-    
+
+
+    // =====================================================
+    // SEARCH
+    // =====================================================
+
     @GetMapping("/search")
     public List<Complaint> searchComplaint(
-            @RequestParam String keyword){
+            @RequestParam String keyword) {
 
-        return complaintService.searchComplaint(keyword);
+        return complaintService
+                .searchComplaint(keyword);
+    }
 
+
+    // =====================================================
+    // ASSIGN STAFF
+    // =====================================================
+
+    @PutMapping("/{complaintId}/assign/{staffId}")
+    public Complaint assignComplaint(
+            @PathVariable Long complaintId,
+            @PathVariable Long staffId) {
+
+        return complaintService
+                .assignComplaint(
+                        complaintId,
+                        staffId
+                );
+    }
+
+
+    // =====================================================
+    // GET STAFF COMPLAINTS
+    // =====================================================
+
+    @GetMapping("/staff/{staffId}")
+    public List<Complaint> getComplaintsByStaff(
+            @PathVariable Long staffId) {
+
+        return complaintService
+                .getComplaintsByStaff(
+                        staffId
+                );
     }
 }

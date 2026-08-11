@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.smartsociety.smart_society_portal.entity.Complaint;
 import com.smartsociety.smart_society_portal.entity.Staff;
 import com.smartsociety.smart_society_portal.exception.ResourceNotFoundException;
+import com.smartsociety.smart_society_portal.repository.ComplaintRepository;
 import com.smartsociety.smart_society_portal.repository.StaffRepository;
 import com.smartsociety.smart_society_portal.service.StaffService;
 
@@ -15,6 +17,9 @@ public class StaffServiceImpl implements StaffService {
 
     @Autowired
     private StaffRepository staffRepository;
+
+    @Autowired
+    private ComplaintRepository complaintRepository;
 
     @Override
     public Staff addStaff(Staff staff) {
@@ -82,7 +87,16 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public List<Staff> getPendingStaff() {
-
         return staffRepository.findByStatus("PENDING");
+    }
+
+    // =========================
+    // STAFF COMPLAINTS
+    // =========================
+
+    @Override
+    public List<Complaint> getAssignedComplaints(Long staffId) {
+
+        return complaintRepository.findByAssignedStaff_Id(staffId);
     }
 }

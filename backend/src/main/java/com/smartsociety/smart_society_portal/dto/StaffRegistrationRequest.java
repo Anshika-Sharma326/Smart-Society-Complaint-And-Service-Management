@@ -7,8 +7,8 @@ public class StaffRegistrationRequest {
     private String password;
     private String phone;
 
-    // Plumber / Carpenter / Electrician
-    private String role;
+    // Plumbing / Electrical / Cleaning / Maintenance / Security etc.
+    private String profession;
 
     public StaffRegistrationRequest() {
     }
@@ -45,11 +45,11 @@ public class StaffRegistrationRequest {
         this.phone = phone;
     }
 
-    public String getRole() {
-        return role;
+    public String getProfession() {
+        return profession;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setProfession(String profession) {
+        this.profession = profession;
     }
 }

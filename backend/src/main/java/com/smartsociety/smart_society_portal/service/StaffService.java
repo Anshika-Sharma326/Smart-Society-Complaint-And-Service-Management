@@ -2,6 +2,7 @@ package com.smartsociety.smart_society_portal.service;
 
 import java.util.List;
 
+import com.smartsociety.smart_society_portal.entity.Complaint;
 import com.smartsociety.smart_society_portal.entity.Staff;
 
 public interface StaffService {
@@ -18,8 +19,11 @@ public interface StaffService {
 
     List<Staff> searchStaff(String keyword);
 
-    // NEW
+    // Admin approval
     Staff approveStaff(Long id);
 
     List<Staff> getPendingStaff();
+
+    // Staff complaints
+    List<Complaint> getAssignedComplaints(Long staffId);
 }

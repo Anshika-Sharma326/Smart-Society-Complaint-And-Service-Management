@@ -2,10 +2,22 @@ package com.smartsociety.smart_society_portal.entity;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
-import com.smartsociety.smart_society_portal.entity.Staff;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = "complaints")
 @Getter
@@ -33,24 +45,36 @@ public class Complaint {
 
     private LocalDateTime createdAt;
 
-    // Resident who raised the complaint
+    // =====================================================
+    // RESIDENT WHO RAISED THE COMPLAINT
+    // =====================================================
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    // Staff assigned by Admin
+    // =====================================================
+    // STAFF ASSIGNED BY ADMIN
+    // =====================================================
+
     @ManyToOne
     @JoinColumn(name = "staff_id")
     private Staff assignedStaff;
 
+    // =====================================================
+    // PRE PERSIST
+    // =====================================================
+
     @PrePersist
     public void prePersist() {
+
         createdAt = LocalDateTime.now();
 
-        if (status == null) {
+        if (status == null || status.trim().isEmpty()) {
             status = "Pending";
         }
     }
+
     public Staff getAssignedStaff() {
         return assignedStaff;
     }

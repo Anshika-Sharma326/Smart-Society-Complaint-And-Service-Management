@@ -8,7 +8,11 @@ public interface NotificationService {
 
     Notification addNotification(Notification notification);
 
-    List<Notification> getAllNotifications();
+    List<Notification> getNotificationsByUser(Long userId);
+
+    Notification markAsRead(Long id);
 
     void deleteNotification(Long id);
+
+    long getUnreadCount(Long userId);
 }
