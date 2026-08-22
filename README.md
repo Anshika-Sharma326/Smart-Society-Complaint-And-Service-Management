@@ -63,6 +63,6 @@ mvn spring-boot:run
 
 ## 👩‍💻 Author
 
-**Anshika Sharma**
-**Mansi**
+**Anshika Sharma,**
+**Mansi,**
 **Vaishnavi Goswami**
